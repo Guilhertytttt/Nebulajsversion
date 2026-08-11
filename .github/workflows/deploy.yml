@@ -1,0 +1,34 @@
+name: Deploy to IPFS via Pinata
+
+on:
+  push:
+    branches: [ main, master ] # Change to 'master' if your default branch is master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+        - node-version: '18'
+
+      - name: Install Dependencies & Build
+        run: |
+          npm install
+          npm run build 
+          # Note: If your build output folder is something other than 'dist' 
+          # (like 'build' or '.next'), change it in the next step.
+
+      - name: Upload to Pinata
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
+        with:
+          pin-name: 'Nebulajsversion Permanent Build'
+          path: './dist' # Change to './build' if your bundler outputs to build/
+          pinata-api-key: ${{ secrets.PINATA_JWT }}
+          pinata-secret-api-key: '' # Leave blank when using JWT
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
