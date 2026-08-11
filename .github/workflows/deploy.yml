@@ -1,5 +1,4 @@
 name: Deploy to IPFS via Pinata
-name: Deploy to IPFS via Pinata
 
 on:
   push:
@@ -26,7 +25,7 @@ jobs:
         uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
         with:
           pin-name: 'Nebulajsversion Permanent Build'
-          path: './dist' # Change to './build' if your bundler outputs to build/
+          path: './dist'
           pinata-api-key: ${{ secrets.PINATA_JWT }}
           pinata-secret-api-key: ''
         env:
